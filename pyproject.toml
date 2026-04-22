@@ -1,12 +1,17 @@
-[build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "validator_br"
 version = "0.1.0"
-description = "Uma biblioteca enxuta e extremamente rápida para validar CPFs"
+description = "Uma biblioteca enxuta e rápida para validação de CPF"
+readme = "README.md"
+license = {text = "MIT"}
 authors = [
-    {name = CodeTangent, email = "developercsharp14@gmail.com"},
+    {name = "CodeTangent", email = "developercsharp14@gmail.com"},
 ]
 requires-python = ">=3.8"
+
+keywords = ["cpf", "validação", "brasil", "documentos"]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
