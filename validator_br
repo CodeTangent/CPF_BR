@@ -18,7 +18,7 @@ class CPF:
         # Aqui o regex remove todos os caracteres não numéricos usando o \D trocando esses caracteres por ''
         self.cpf = re.sub(r'\D', '', str(raw_cpf))
 
-    def _calculate_digit(self, slice_cpf):
+    def _calculate_check_digit(self, slice_cpf):
         """
         Calcula o dígito verificador com base em uma fatia do CPF.
         Método interno (protegido).
