@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "validator_br"
+version = "0.1.0"
+description = "Uma biblioteca enxuta e extremamente rápida para validar CPFs"
+authors = [
+    {name = CodeTangent, email = "developercsharp14@gmail.com"},
+]
+requires-python = ">=3.8"

@@ -1,0 +1,53 @@
+import re
+
+class CPF:
+    """
+    Classe para validação e tratamento de CPFs brasileiros.
+    
+    Atributos:
+        cpf (str): String contendo apenas os 11 dígitos numéricos do CPF.
+    """
+
+    def __init__(self, raw_cpf):
+        """
+        Inicializa a classe e limpa a entrada do usuário.
+        
+        Args:
+            raw_cpf (str/int): O CPF em qualquer formato (com pontos, traços ou apenas números).
+        """
+        # Aqui o regex remove todos os caracteres não numéricos usando o \D trocando esses caracteres por ''
+        self.cpf = re.sub(r'\D', '', str(raw_cpf))
+
+    def _calculate_digit(self, slice_cpf):
+        """
+        Calcula o dígito verificador com base em uma fatia do CPF.
+        Método interno (protegido).
+        """
+        # Walrus calcula o resto da divisão e armazena esse resultado em rest
+        # Ele usa esse valor para determinar o dígito e multiplica pelo index, divide por 11 e pega o resto da divisão
+        # A partir disso se for menor que 2, o dígito verificador do CPF é 0, caso contrário é 11 - rest
+        return 0 if (rest := sum(int(digit) * index for digit, index in zip(slice_cpf, range(len(slice_cpf) + 1, 1, -1))) % 11) < 2 else 11 - rest
+
+    def is_valid(self):
+        """
+        Realiza a validação lógica completa do CPF.
+        
+        Returns:
+            bool: True se o CPF for válido, False caso contrário.
+        """
+        # Verifica se o CPF possui 11 números e se não é uma sequência de números repetidos (ex: 111.111.111-11)
+        # O set() isola os números únicos; se o tamanho do conjunto for 1, o CPF é considerado inválido
+        if len(self.cpf) != 11 or len(set(self.cpf)) == 1:
+            return False
+
+        # Compara os dois últimos dígitos reais do CPF com os dois dígitos calculados pela nossa função
+        # Walrus armazena o primeiro resultado em first_digit para que ele possa ser somado à base no cálculo do segundo dígito
+        # A f-string monta a sequência final dos dois dígitos verificadores para a comparação direta
+        return self.cpf[-2:] == f"{(first_digit := self._calculate_digit(self.cpf[:9]))}{(self._calculate_digit(self.cpf[:9] + str(first_digit)))}"
+
+# Exemplo de uso utilizando o Operador Walrus para capturar o objeto e validar a condição simultaneamente:
+if __name__ == "__main__":
+    if (user_cpf := CPF(input("Digite o CPF para validação: "))).is_valid():
+        print(f"Válido: {user_cpf.cpf}")
+    else:
+        print("CPF inválido.")
